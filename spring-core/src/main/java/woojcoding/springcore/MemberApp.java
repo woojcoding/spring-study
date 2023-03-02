@@ -1,4 +1,8 @@
-package woojcoding.springcore.member;
+package woojcoding.springcore;
+
+import woojcoding.springcore.member.Grade;
+import woojcoding.springcore.member.Member;
+import woojcoding.springcore.member.MemberServiceImpl;
 
 public class MemberApp {
     public static void main(String[] args) {
