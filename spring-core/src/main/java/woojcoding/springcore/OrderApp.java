@@ -3,16 +3,16 @@ package woojcoding.springcore;
 import woojcoding.springcore.member.Grade;
 import woojcoding.springcore.member.Member;
 import woojcoding.springcore.member.MemberService;
-import woojcoding.springcore.member.MemberServiceImpl;
 import woojcoding.springcore.order.Order;
 import woojcoding.springcore.order.OrderService;
-import woojcoding.springcore.order.OrderServiceImpl;
 
 public class OrderApp {
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
+        AppConfig appConfig = new AppConfig();
 
-        OrderService orderService = new OrderServiceImpl();
+        MemberService memberService = appConfig.memberService();
+
+        OrderService orderService = appConfig.orderService();
 
         Long memberId = 1L;
 
