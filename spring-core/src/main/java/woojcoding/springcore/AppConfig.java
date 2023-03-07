@@ -1,7 +1,7 @@
 package woojcoding.springcore;
 
 import woojcoding.springcore.discount.DiscountPolicy;
-import woojcoding.springcore.discount.FixDiscountPolicy;
+import woojcoding.springcore.discount.RateDiscountPolicy;
 import woojcoding.springcore.member.MemberRepository;
 import woojcoding.springcore.member.MemberService;
 import woojcoding.springcore.member.MemberServiceImpl;
@@ -25,6 +25,6 @@ public class AppConfig {
     }
 
     public DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
