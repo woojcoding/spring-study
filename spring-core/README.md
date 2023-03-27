@@ -237,5 +237,18 @@ ApplicationContext applicationContext = new AnnotationConfigApplicationContext(A
 - `ac.getBeanDefinitionNames()` : 스프링에 등록된 모든 빈 이름 조회
 - `ac.getBean()` : 빈 이름을 파라미터로 빈 객체를 조회한다.
 - `ac.getBeanDefinition.getRole()` : ROLE_APPLICATION 사용자가 정의한 빈 / ROLE_INFRASTRUCTURE 스프링 내부에서 사용하는 빈
+
+### 스프링 컨테이너에 등록된 빈 조회 - 기본
+-`ac.getBean(빈이름, 타입)`
+- `ac.getBean(타입)`
+- -> 스프링 빈이 없을 경우 `NoSuchBeanDefinitionException: No Bean Named xxx available` 예외 발생
+
+### 스프링 컨테이너에 등록된 빈 조회 - 동일한 타입이 둘 이상
+- 타입만으로 조회시 같은 타입의 스프링 빈이 둘 이상이면 오류가 발생하기에 빈 이름과 타입을 지정하여 조회해야한다.
+- `ac.getBeansOfType()`을 통해 해당 타입의 모든 빈을 Map<String, 빈타입> 으로 조회 가능하다.
+
+### 스프링 컨테이너에 등록된 빈 조회 - 상속관계
+- 부모 타입으로 조회하면, 자식 타입도 함꼐 조회된다.
+- 가장 상위 타입인 Object로 조회시, 모든 스프링 빈 조회 가능하다.
 </div>
 </details>
