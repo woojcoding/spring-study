@@ -211,5 +211,31 @@ IoC 컨테이너, DI 컨테이너
 - 이전에는 AppConfig를 이용하여 객체를 조회하였으나, 이제부터는 applicationContext.getBean()을 통해 객체를 찾는다.
 - 스프링 컨테이너에 객체를 스프링 빈으로 등록하고, 스프링 컨테이너에서 스프링 빈을 찾아 사용한다.
 
+### 스프링 컨테이너 생성 과정
+1. 스프링 컨테이너 생성
+```java
+ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+```
+- ApplicationContext는 인터페이스로 스프링 컨테이너이다.
+- 위 코드는 애너테이션 기반의 자바 설정 클래스로 스프링 컨테이너를 만든 것으로 AnnotationConfigApplicationContext 는 인터페이스의 구현체이다.
+- 스프링 컨테이너를 생성할 때는 구성 정보를 지정해주어야 한다.
+2. 스프링 빈 등록
+- 스프링 컨테이너는 파라미터로 넘어온 설정 클래스 정보를 사용하여 스프링 빈을 등록한다. 
+- key : value
+- 빈이름(메서드명) : 빈 객체(메서드를 통해 반환된 객체)
+- 빈 이름은 메서드 명을 사용
+- 빈 이름은 직접 부여 가능`@Bean(name="beanName111")`
+- 빈 이름은 항상 다른 이름을 부여해야 한다. - 같은 이름 부여 시 오류 발생
+3. 스프링 빈 의존관계 설정
+- 스프링은 빈을 생성하고 의존관계를 주입하는 단계가 나누어져 있다.
+- 스프링 컨테이너가 설정 정보를 참고하여 DI 한다.
+  
+정리
+- 스프링 컨테이너를 생성할 때, 구성 정보를 참고하여 스프링 빈을 등록하고 의존관계 설정을 하였다.
+
+### 스프링 컨테이너에 등록된 빈 조회
+- `ac.getBeanDefinitionNames()` : 스프링에 등록된 모든 빈 이름 조회
+- `ac.getBean()` : 빈 이름을 파라미터로 빈 객체를 조회한다.
+- `ac.getBeanDefinition.getRole()` : ROLE_APPLICATION 사용자가 정의한 빈 / ROLE_INFRASTRUCTURE 스프링 내부에서 사용하는 빈
 </div>
 </details>
