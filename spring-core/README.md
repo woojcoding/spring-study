@@ -198,3 +198,18 @@ IoC 컨테이너, DI 컨테이너
 - 의존관계 주입에 초점을 맞추어 최근에는 주로 DI 컨테이너라 한다.
 </div>
 </details>
+
+<details>
+<summary> 스프링으로 전환</summary>
+<div markdown="1">
+
+### 스프링 컨테이너
+- ApplicationContext : 스프링 컨테이너
+- 기존에는 개발자가 AppConfig를 사용하여 객체를 생성하고 DI를 하였지만 이제부터는 스프링 컨테이너를 ㅅ용한다.
+- 스프링 컨테이너는 @Configuration 애너테이션이 붙은 AppConfig를 설정 정보로 사용하며 @Bean 이 적힌 메서드를 모두 호출하여 반환된 객체를 스프링 컨테이너에 스프링 빈으로 등록한다.,
+- 스프링 빈은 @Bean이 붙은 메서드의 명을 스프링 빈의 이름으로 사용한다.
+- 이전에는 AppConfig를 이용하여 객체를 조회하였으나, 이제부터는 applicationContext.getBean()을 통해 객체를 찾는다.
+- 스프링 컨테이너에 객체를 스프링 빈으로 등록하고, 스프링 컨테이너에서 스프링 빈을 찾아 사용한다.
+
+</div>
+</details>
