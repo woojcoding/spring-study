@@ -200,7 +200,7 @@ IoC 컨테이너, DI 컨테이너
 </details>
 
 <details>
-<summary> 스프링으로 전환</summary>
+<summary> 스프링 컨테이너와 스프링 빈 </summary>
 <div markdown="1">
 
 ### 스프링 컨테이너
@@ -250,5 +250,28 @@ ApplicationContext applicationContext = new AnnotationConfigApplicationContext(A
 ### 스프링 컨테이너에 등록된 빈 조회 - 상속관계
 - 부모 타입으로 조회하면, 자식 타입도 함꼐 조회된다.
 - 가장 상위 타입인 Object로 조회시, 모든 스프링 빈 조회 가능하다.
+
+### BeanFactory / ApplicationContext
+BeanFactory (인터페이스) <- ApplicationContext (인터페이스) <- AnnotationConfigApplicationContext  
+
+BeanFactory
+- 스프링 컨테이너의 최상위 인터페이스
+- 스프링 빈을 관리하고 조회하는 역할 담당
+- `getBean()` 을 제공
+
+ApplicationContext
+- BeanFactory 기능을 모두 상속 받아 제공
+- 애플리케이션을 개발할 때에는 빈을 관리, 조회하는 기능은 물론이고, 수 많은 부가기능들이 필요하다.  
+  
+  - ApplicationContext가 제공하는 부가기능
+  - "메세지소스를 활용한 국제화 기능" - 한국에선 한국어, 영어권에선 영어로 출력
+  - "환경변수" - 로컬, 개발, 운영 등을 구분해서 처리할 수 있게 해준다.
+  - "애플리케이션 이벤트" - 이벤트를 발행하고 구독하는 모델을 편리하게 지원해준다.
+  - "편리한 리소스 조회" - 파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회하게 해준다.
+정리
+  - ApplicationContext는 BeanFactory의 기능을 상속받는다.
+  - ApplicationContext : 빈 관리 + 편리한 부가기능 제공
+  - BeanFactory 보다는 부가기능이 포함된 ApplicationContext를 사용한다.
+  - BeanFactory, ApplicationContext를 스프링 컨테이너라고 한다.
 </div>
 </details>
