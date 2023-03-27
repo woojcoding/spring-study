@@ -286,6 +286,30 @@ XML 설정 사용
 - 최근에는 스프링 부트를 사용하기에 잘 사용되지 않는다.
 - 레거시 프로젝트들이 XML로 되어 있으며 컴파일 없이 빈 설정 정보를 변경할 수 있는 장점이 있다.
 - `GenericXmlApplicationContext`를 사용하여 xml 설정 파일을 넘기면 된다.
--
+
+### 스프링 빈 설정 메타 정보 - BeanDefinition
+- 스프링은 BeanDefinition 이라는 추상화 인터페이스를 통하여 다양한 설정 형식을 지원한다.
+- 스프링 컨테이너는 BeanDefinition에 의존한다.
+- XML, 자바 코드를 읽어 BeanDefinition을 만든다.
+- BeanDefinition은 빈 설정 메타정보라 한다.
+- @Bean , <bean> 당 각각 하나씩 메타 정보가 생성된다.
+- 스프링컨테이너는 이 메타 정보를 기반으로 스프링 빈을 생성한다.
+- `AnnotationConfigApplicationContext` 가 `AnnotatedBeanDefinitionReader` 를 통해 `AppConfig.class`를 읽어 `BeanDefinition`을 생성한다.
+- `GenericXmlApplicationContext`는 `XmlBeanDefinitionReader`를 사용해 `appConfig.xml` 를 읽어 `BeanDefinition` 을 생성한다.
+  
+BeanDefinition 정보
+- BeanClassName : 생성할 빈의 클래스 명(자바 설정의 경우 팩토리 역할의 빈을 사용하기에 없음)
+- factoryBeanName : 팩토리 역할의 빈을 사용할 경우 이름 ex) appConfig
+- factoryMethodName : 빈을 생성할 팩토리 메서드 지정 ex) memberService
+- Scope : 싱글톤(default)
+- lazyInit : 스프링 컨테이너를 생성할 때 빈을 생성하는 것이 아닌, 실제 빈을 사용할 때 까지 생성을 지연처리 하는지의 여부
+- initMethodName: 빈 생성 후, 의존관계를 적용한 뒤 호출되는 초기화 메서드 명
+- DestroyMethodNameL 빈의 생명 주기가 끝나 제거하기 직전에 호출되는 메서드 명
+
+정리
+- BeanDefinition을 직접 생성하여 스프링 컨테이너에 등록할 수 있으나 실무에서는 직접 정의하거나 사용할 일 거의 없다.
+- 스프링은 다양한 형태의 설정 정보를 BeanDefinition으로 추상화하여 사용할 수 있다.
+- XML은 직접 스프링 빈을 등록하는 방식
+- 자바 설정 클래스는 팩토리 메서드를 통해 등록하는 방식
 </div>
 </details>
