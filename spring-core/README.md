@@ -443,3 +443,67 @@ BeanDefinition 정보
 스프링 부트의 경우 수동 빈 등록, 자동 빈 등록이 충돌이 나 오류가 발생하도록 기본값이 설정 되어 있다. 
 </div>
 </details>
+<details>
+<summary> 의존관계 자동 주입</summary>
+<div markdown="1">
+
+## 다양한 의존관계 주입 방법
+의존관계 자동 주입은 스프링 컨테이너가 관리하는 스프링 빈이어야 동작한다.
+
+- 생성자 주입
+- 수정자 주입
+- 필드 주입
+- 일반 메서드 주입
+
+### 생성자 주입
+```java
+private final MemberRepository memberRepository;
+
+@Autowired
+public memberServiceImpl(MemberRepository memberRepository) {
+    this.memberRepository = memberRepository;
+        }
+```
+- 생성자를 통해 의존관계를 주입하는 방법
+- 생성자 호출 시점에 딱 1번만 호출되는 것이 보장된다.
+- 불변(Setter 만들지 않아 데이터 수정X), 필수(final 필드) 의존관계에 사용
+- <u> 생성자가 딱 1개만 있다면 @Autowired를 생략하여도 자동 주입 된다.</u>
+
+### 수정자 주입(Setter 주입)
+```java
+private MemberRepository memberRepository;
+
+@Autowired
+public void setMemberRepository(MemberRepository memberRepository) {
+    this.memberRepository = memberRepository;
+        }
+```
+- setter(수정자) 메서드를 통해 의존관계를 주입하는 방법
+- 선택(required = false로 없어도 구동 되게끔), 변경(중간에 instance를 바꿀 때) 가능성이 있는 의존관계에 사용
+- 자바빈 프로퍼티 규악의 수정자 메서드 방식을 사용하는 방법(getter, setter를 이용하여 데이터를 조회, 수정하는 방식)
+- `@Autowired(required = false)`: 주입할 대상이 없어도 동작하게 된다.
+
+### 필드 주입
+```java
+@Autowired
+private MemberRepository memberRepository;
+```
+- 필드에 바로 주입하는 방법
+- 외부에서 변경이 불가능해 테스트를 하기 위해서는 결국 setter를 따로 만들어 주입을 해줘야 한다 -> 테스트를 하기 어렵다.
+- DI 프레임워크가 없으면 아무것도 할 수가 없어 사용하지 말자.
+- 테스트코드나 @Configuration 같은 곳에서만 특수한 용도로 사용한다.
+
+### 일반 메서드 주입
+```java
+private MemberRepository memberRepository;
+
+@Autowired
+public void init(MemberRepository memberRepository) {
+    this.memberRepository = memberRepository;
+        }
+```
+- 일반 메서드를 통해 주입하는 방법
+- 한번에 여러 필드를 주입할 수 있다.
+- 일반적으로 잘 사용X
+</div>
+</details>
