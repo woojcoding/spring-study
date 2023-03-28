@@ -353,5 +353,23 @@ BeanDefinition 정보
 - 스프링 빈의 필드에 공유 값을 설정하면 큰 장애가 발생할 수 있다.
 - 스프링 빈은 항상 무상태로 설계하자
 
+## @Configuration과 싱글톤
+- memberService 빈을 만들 떄 memberRepository() 호출
+- orderService 빈을 만들 때 memberRepository() 호출
+- memberRepository 빈을 만들 때 memberRepository() 호출
+- 이 처럼 memberRepository()를 3번 호출하며 싱글톤이 깨질 것 같아 보이나 실제로는 각 빈들의 메서드를 한번씩만 호출된다.  
+  
+  
+-> 스프링은 클래스의 바이트코드를 조작하는 라이브러리를 사용한다.
+- @Configuration 애너테이션을 달아둔 경우 스프링이 CGLIB라는 바이트코드 조작 라이브러리를 사용하여 Appconfig 클래스를 상속받은 AppConfig@CGLIB라는 다른 클래스를 만들고 이 다른 클래스를 스프링 빈으로 등록한다.
+- 이미 객체가 스프링 컨테이너에 등록되어 있다면 스프링 컨테이너에서 찾아서 반환해주고
+- 스프링 컨테이너에 없다면 기존 로직을 호출하여 객체를 생성하고 스프링 컨테이너에 등록하여
+- 싱글톤을 보장해준다.
+  
+@Configuration을 적용하지 않고 @Bean만 적용한다면?
+- CGLIB기술이 적용되지 않은 순수한 AppConfig가 스프링 빈에 등록된다.
+- memberRepository()를 3번 호출하여 싱글톤 패턴이 깨진다.
+
+스프링 설정 정보는 항상 `@Configuration` 을 사용해야 한다.
 </div>
 </details>
