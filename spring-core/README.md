@@ -400,5 +400,35 @@ BeanDefinition 정보
 - 기본 조회 전력은 타입이 같은 빈을 찾아서 주입한다.
 - `ac.getBean(MemberRepository.class)` 와 동일
 - 생성자에 파라미터가 많아도 전부 자동으로 주입한다.
+
+## 탐색 위치와 기본 스캔 대상
+
+탐색할 패키지의 시작 위치 지정
+- 모든 자바 클래스를 스캔하면 시간이 오래 걸리기에 특정 위치부터 탐색하도록 지정할 수 있다.
+- `@ComponentScan(basePackages = "woojcoding.springcore`
+- `basePackages` : 탐색할 패키지의 시작 위치를 지정, 이 패키지를 포함한 하위 패키지를 탐색
+- {"woojcoding.a","woojcoding,b"} 로 여러 시작 위치 지정 가능
+- `basePackageClasses` : 해당 클래스의 패키지를 탐색 시작 위치로 지정
+- Default : @ComponentScan이 붙은 설정 정보 클래스의 패키지가 시작위치
+- 설정 정보 클래스의 위치를 프로젝트 최상단에 둔다. -> 해당 패키지의 하위 모두 자동으로 컴포넌트 스캔의 대상이 된다.
+
+컴포넌트 스캔 기본 대상
+- `@Component` : 컴포넌트 스캔에 사용
+- `@Controller` : 스프링 MVC 컨트롤러로 인식
+- `@Service` : 핵심 비즈니스 로직이 있다고 인식하는데 도움을 줌
+- `@Repository` : 스프링 데이터 접근 계층으로 인식하여 데이터 계층 예외를 스프링 예외로 변환
+- `@Configuration` : 스프링 설정 정보로 인식하며 스프링 빈이 싱글톤을 유지하도록 추가 처리함
+- 애너테이션에 특정 애너테이션이 있다는 것을 인식하는 것은 스프링의 지원 기능이다.
+
+## 필터
+- `includeFilters` : 컴포넌트 스캔 대상을 추가 지정
+- `excludeFilters` : 컴포넌트 스캔에서 대상 제외
+
+필터타입 옵션
+- ANNOTATION : 기본값, 애너테이션을 인식
+- ASSIGNABLE_TYPE : 지정 타입과 자식 타입 인식
+- ASPECTJ : AspectJ 패턴
+- REGEX : 정규 표현식
+- CUSTOM : TypeFilter 인터페이스 구현하여 처리
 </div>
 </details>
