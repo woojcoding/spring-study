@@ -505,5 +505,12 @@ public void init(MemberRepository memberRepository) {
 - 일반 메서드를 통해 주입하는 방법
 - 한번에 여러 필드를 주입할 수 있다.
 - 일반적으로 잘 사용X
+
+## 필드 주입 옵션 처리
+주입할 빈이 없으면 기본 알고리즘으로 동작하는 방식으로 구현할 때 사용한다.
+- @Autowired의 required 옵션의 경우 true가 default 값이다. -> 자동 주입 대상이 없다면 오류가 발생한다.
+- @Autowired(required = false) : 자동 주입할 대상이 없다면 메서드 자체가 호출이 안된다.
+- @Nullable 파라미터 : 자동 주입할 대상이 없다면 null이 입력된다.
+- Optional<> 파라미터 : 자동 주입할 대상이 없으면 Optional.empty가 입력된다.
 </div>
 </details>
