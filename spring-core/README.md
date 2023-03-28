@@ -292,7 +292,7 @@ XML 설정 사용
 - 스프링 컨테이너는 BeanDefinition에 의존한다.
 - XML, 자바 코드를 읽어 BeanDefinition을 만든다.
 - BeanDefinition은 빈 설정 메타정보라 한다.
-- @Bean , <bean> 당 각각 하나씩 메타 정보가 생성된다.
+- @Bean , `<bean>` 당 각각 하나씩 메타 정보가 생성된다.
 - 스프링컨테이너는 이 메타 정보를 기반으로 스프링 빈을 생성한다.
 - `AnnotationConfigApplicationContext` 가 `AnnotatedBeanDefinitionReader` 를 통해 `AppConfig.class`를 읽어 `BeanDefinition`을 생성한다.
 - `GenericXmlApplicationContext`는 `XmlBeanDefinitionReader`를 사용해 `appConfig.xml` 를 읽어 `BeanDefinition` 을 생성한다.
@@ -371,5 +371,34 @@ BeanDefinition 정보
 - memberRepository()를 3번 호출하여 싱글톤 패턴이 깨진다.
 
 스프링 설정 정보는 항상 `@Configuration` 을 사용해야 한다.
+</div>
+</details>
+
+<details>
+<summary> 컴포넌트 스캔</summary>
+<div markdown="1">
+
+## 컴포넌트 스캔과 의존관계 자동 주입하기
+- 기존에는 @Bean, xml의 경우 `<bean>` 등을 통해 직접 스프링 빈을 등록하였다.
+- 스프링은 설정 정보가 없이 자동으로 스프링 빈을 등록하는 컴포넌트 스캔 기능을 제공한다.
+- 의존관계의 경우 @AutoWired 를 통해 자동 주입 가능하다.
+  
+
+- `@Configuration, @ComponentScan` 을 설정 정보에 붙여준다.
+- 기존 설정파일을 컴포넌트 스캔의 대상에서 제외하기 위해 excludeFilters 를 이용하여 Configuration 애너테이션이 붙은 클래스는 제외하였다.
+- 각 클래스가 컴포넌트 스캔 대상이 되도록 `@Component` 애너테이션을 붙여준다.
+- 의존관계를 설정해 주기 위해 생성자 위에 `@Autowired` 애너테이션을 붙여 생성자 주입을 해준다.
+
+컴포넌트 스캔과 자동 의존관계 주입 과정
+1. @ComponentScan
+- @ComponentScan은 @Component가 붙은 모든 클래스를 스프링 빈으로 등록한다.
+- 빈이름과 빈 객체를 등록하는데 기존 클래스명의 맨 앞글자만 소문자로 변경하여 저장한다.
+- MemberServiceImpl 클래스는 memberServiceImpl 로 저장된다.
+- @Component("스프링빈 이름 직접지정") 으로 빈 이름 직접 지정이 가능하다.
+2. @Autowired
+- 생성자에 @Autowired를 지정시 스프링 컨테이너가 자동으로 해당 스프링 빈을 찾아서 주입한다.
+- 기본 조회 전력은 타입이 같은 빈을 찾아서 주입한다.
+- `ac.getBean(MemberRepository.class)` 와 동일
+- 생성자에 파라미터가 많아도 전부 자동으로 주입한다.
 </div>
 </details>
