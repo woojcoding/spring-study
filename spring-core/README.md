@@ -430,5 +430,16 @@ BeanDefinition 정보
 - ASPECTJ : AspectJ 패턴
 - REGEX : 정규 표현식
 - CUSTOM : TypeFilter 인터페이스 구현하여 처리
+
+## 중복 등록과 충돌
+
+자동 빈 등록, 자동 빈 등록
+- 컴포넌트 스캔으로 자동 빈 등록과정에서 ConflictingBeanDefinitionException 발생
+
+수동 빈 등록, 자동 빈 등록
+- 수동 빈이 자동 빈을 오버라이딩 해버린다.
+
+원치 않은 빈으로 등록되어 버그가 만들어질 수 있다.  
+스프링 부트의 경우 수동 빈 등록, 자동 빈 등록이 충돌이 나 오류가 발생하도록 기본값이 설정 되어 있다. 
 </div>
 </details>
