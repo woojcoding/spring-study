@@ -651,5 +651,15 @@ public class RateDiscountPolicy implements DiscountPolicy {}
 - 스프링 빈이 스프링 코드에 의존하지 않게 된다.
 - 외부라이브러리도 빈으로 등록 후 초기화, 종료 메서드를 적용할 수 있다.
 - destroyMethod 옵션은 추론 기능이 있어 지정을 하지 않아도 close, shutdown 이름의 메서드를 자동으로 호출한다.
+
+## @PostConstruct, @PreDestroy
+- 메서드 위에 해당 애너테이션을 써주기만 하면 된다.
+- 스프링에서 가장 권장하는 방법으로 자바 표준 기술이기에 스프링이 아닌 다른 컨테이너에서도 동작한다.
+- 컴포넌트 스캔에서도 사용 가능하다.
+- 외부 라이브러리에는 적용이 불가하기에 @Bean 옵션 기능을 사용해야 한다
+
+## 정리
+- @PostConstruct, @PreDestroy를 초기화, 소멸 메서드 위에 달아주자.
+- 코드 수정이 불가한 외부라이브러리의 경우 @Bean(initMethod, destroyMethod) 를 통해 초기화, 소멸 메서드를 지정해주자.
 </div>
 </details>
