@@ -1,10 +1,12 @@
 package woojcoding.springcore.discount;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import woojcoding.springcore.member.Grade;
 import woojcoding.springcore.member.Member;
 
 @Component
+@Primary
 public class RateDiscountPolicy implements DiscountPolicy {
     private int discountPercent = 10;
 

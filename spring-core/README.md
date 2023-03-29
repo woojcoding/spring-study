@@ -533,5 +533,69 @@ public void init(MemberRepository memberRepository) {
 - 기본으로는 생성자 주입, 필수 값이 아닌 경우 수정자 주입 방식을 사용하며 옵션처리를 해준다.
 - 생성자 주입과 수정자 주입을 동시에 사용할 수 있다.
 - 생성자 주입을 선택하되 옵션이 필요한 경우에만 수정자 주입 방식 사용하기
+
+## 조회 빈이 2개 이상일 경우 문제점
+- @Autowired는 타입으로 조회한다(ac.getBean() 과 유사)
+- 하위타입 2가지를 스프링 빈으로 선언해둔 후 부모타입을 의존관계 자동주입한다면
+- `NoUniqueBeanDefinitionException` 오류 발생 : 스프링 빈이 1개일 것이라 예상하였으나 두개나 등록되어 있기 때문이다.
+- 의존관계 주입을 부모타입 -> 하위타입으로 변경한다면 DIP위반, 유연성이 떨어진다.
+
+해결방법
+### 필드명
+- @Autowired는 타입을 조회 후 여러 빈이 있다면 필드이름과 파라미터 이름으로 빈 이름을 찾는다.
+```java
+변경 전
+@Autowired
+private DiscountPolicy discountPolicy;
+
+변경 후
+@Autowired
+private DiscountPolicy rateDiscountPolicy;
+```
+- 생성자 주입시 파라미터 명을 rateDiscountPolicy로 변경해도 된다.
+
+@Autowired 매칭
+- 1. 타입 매칭
+- 2. 타입 매칭 결과가 2개 이상인 경우 필드명, 파라미터 명으로 빈 이름 매칭
+### @Qualifier
+- 추가 별명을 붙여준느 방법으로 빈 이름을 변경하는 것은 아니다
+
+1. @Qualifier를 붙여 빈을 등록해준다.
+```java
+@Component
+@Qualifier("mainDiscountPolicy")
+public class RateDiscountPolicy implements DiscountPolicy {}
+```
+2. 생성자나 수정자 주입시 @Qualifier("별명") 을 적어준다.
+```java
+@Autowired
+public OrderServiceImpl(@Qualifier("mainDiscountPolicy") DiscountPolicy
+discountPolicy) {
+ this.discountPolicy = discountPolicy;
+}
+```
+`@Qualifier`
+- @Qualifier를 매칭
+- 해당 별명을 가진 Qualifer가 없다는 해당 별명을 이름으로 가진 스프링 빈을 찾는다.
+- 그래도 없다면 NoSuchBeanDefinitionException 오류 발생
+### @Primary
+- @Primary로 우선순위를 부여한다.
+- 여러 빈이 매칭된다면 @Primary가 우선권을 가진다.
+```java
+@Component
+@Primary
+public class RateDiscountPolicy implements DiscountPolicy {}
+```
+
+정리
+- 자주 사용하는 스프링 빈은 @Primary를 적용한다.
+- 가끔 사용하는 스프링 빈은 @Qualifier를 지정하여 생성자 주입시 @Qualifier를 지정하여 주입해준다.
+- 우선순위 @Primary < @Qualifier
+
+### 애너테이션을 만들어 사용하기
+- @Qualifier("오타발생가능") -> 문자를 적게 되므로 생성자 주입을 하거나 할 떄 오타가 발생하더라도 컴파일시 타입 체크가 안된다.
+- @Qualifier에 붙어있는 애너테이션들을 복사해온 후 @Qualifier("별명") 을 통해 애너테이션을 만들어 사용한다면 해당 문제를 해결할 수 있다.
+
+
 </div>
 </details>
