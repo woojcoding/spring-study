@@ -1,6 +1,7 @@
 package woojcoding.springcore.scope;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -22,9 +23,9 @@ public class SingletonWithPrototypeTest1 {
         assertThat(prototypeBean1.getCount()).isEqualTo(1);
 
         PrototypeBean prototypeBean2 = ac.getBean(PrototypeBean.class);
-        prototypeBean1.addCount();
+        prototypeBean2.addCount();
 
-        assertThat(prototypeBean1.getCount()).isEqualTo(2);
+        assertThat(prototypeBean2.getCount()).isEqualTo(1);
     }
 
     @Test
@@ -42,18 +43,19 @@ public class SingletonWithPrototypeTest1 {
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int cnt2 = clientBean1.logic();
 
-        assertThat(cnt2).isEqualTo(2);
+        assertThat(cnt2).isEqualTo(1);
     }
 
     static class ClientBean {
-        private final PrototypeBean prototypeBean; // 생성 시점에 이미 주입되어 있음
+        private final ObjectProvider<PrototypeBean> objectProvider;
 
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
+        public ClientBean(ObjectProvider<PrototypeBean> objectProvider) {
+            this.objectProvider = objectProvider;
         }
 
         public int logic() {
+            PrototypeBean prototypeBean = objectProvider.getObject();
             prototypeBean.addCount();
 
             return prototypeBean.getCount();
