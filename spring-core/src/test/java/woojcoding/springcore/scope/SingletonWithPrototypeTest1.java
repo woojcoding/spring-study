@@ -1,13 +1,12 @@
 package woojcoding.springcore.scope;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -47,15 +46,14 @@ public class SingletonWithPrototypeTest1 {
     }
 
     static class ClientBean {
-        private final ObjectProvider<PrototypeBean> objectProvider;
+        private final Provider<PrototypeBean> provider;
 
-        @Autowired
-        public ClientBean(ObjectProvider<PrototypeBean> objectProvider) {
-            this.objectProvider = objectProvider;
+        public ClientBean(Provider<PrototypeBean> provider) {
+            this.provider = provider;
         }
 
         public int logic() {
-            PrototypeBean prototypeBean = objectProvider.getObject();
+            PrototypeBean prototypeBean = provider.get();
             prototypeBean.addCount();
 
             return prototypeBean.getCount();

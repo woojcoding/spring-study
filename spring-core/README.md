@@ -708,5 +708,19 @@ public class RateDiscountPolicy implements DiscountPolicy {}
 - ObjectProvider의 getObject()  호출시 스프링 컨테이너를 통해 해당 빈을 찾아 반환한다.(DL) -> 프로토타입 빈은 새로 생성되어 반환된다.
 - ObjectFactory: 기능 단순, 별도 라이브러리 필요X, 스프링에 의존
 - ObjectProvider: ObjectFactory 상속, 옵션과 스트림 처리 등 편의 기능이 많음, 별도 라이브러리 필요X, 스프링에 의존
+
+### JSR-330 Provider 인터페이스
+`javax.inject:javax.inject:1` 라이브러리를 추가하여 자바 표준을 사용하는 방법
+- provider.get()을 호출시 스프링 컨테이너를 통해 해당 빈을 찾아서 반환한다.(DL)
+- 기능이 단순하고 테스트 만들기가 쉬워진다.
+- DL 정도의 기능만 제공한다.
+- 자바 표준이므로 스프링이 아닌 컨테이너에서도 사용가능하며 별도의 라이브러리가 필요하다.
+
+### 정리
+- 프로토타입 빈은 언제 사용? 사용할 때 마다 매번 의존관계 주입이 완료된 새로운 객체가 필요할 때
+- 실무에서 프로토타입 빈을 사용하는 일은 매우 드물다.
+- ObjectProvider, JSR330 Provider 를 통해 DL 기능을 사용할 수 있다.
+- 스프링이 아닌 다른 컨테이너에서 사용해야 한다면 JSR330 Provider 사용하자.
+- 특별히 다른 컨테이너를 사용하지 않는다면 스프링이 제공하는 기능이 더 다양하고 편리하기에 스프링 기술을 사용하자.
 </div>
 </details>
